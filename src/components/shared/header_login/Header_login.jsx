@@ -25,22 +25,20 @@ const App = () => {
     }
     return (
         <Layout className="layout "
-            style={{
-                backgroundColor: "white",
-            }}
+            
         >
             <Header
                 style={{
                     display: 'flex',
                     alignItems: 'center',
-
-
+                    padding: '0px',
+                    boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px'
                 }}
             >
                 <div className="demo-logo" />
                 <Menu
                     className='menu'
-                    theme="dark"
+                    theme="light"
                     mode="horizontal"
                     defaultSelectedKeys={['0']}
                     style={{

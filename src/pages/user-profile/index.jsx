@@ -51,7 +51,7 @@ const UserProfile = () => {
       <Card
         style={{
           width: '50%',
-          margin: 'auto'
+          margin: 'auto',
         }}
         title="Thông tin cá nhân" size="small">
         <Form
