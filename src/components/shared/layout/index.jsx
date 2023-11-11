@@ -14,7 +14,7 @@ const Page_Layout = (props) => {
         
           <Outlet />
        
-        <Footer />
+        
       
     </div>
   );
