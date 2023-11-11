@@ -1,7 +1,7 @@
 import { Card, Flex, Typography } from 'antd';
 import React from 'react';
 
-import "../../css/cardInfoStyle.css"
+import "../../../css/cardInfoStyle.css"
 
 
 export default function PersonalCardInfo(props) {

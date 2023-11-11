@@ -1,4 +1,4 @@
-import PersonalCardInfo from "../personalCardInfo";
+import PersonalCardInfo from "../../components/shared/personalCardInfo";
 
 import "../../css/landingStyle.css"
 
