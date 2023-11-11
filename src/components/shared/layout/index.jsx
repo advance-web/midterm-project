@@ -2,19 +2,26 @@ import PropTypes from "prop-types";
 
 import Footer from "../footer";
 import Navigation from "../navigation";
+import Header_login from "../header_login/Header_login";
+import { Layout } from 'antd';
+import { Outlet } from 'react-router-dom';
 
-const Layout = (props) => {
+const Page_Layout = (props) => {
   return (
     <div>
-      <Navigation />
-      {props.children}
-      <Footer />
+      
+        <Header_login />
+        
+          <Outlet />
+       
+        
+      
     </div>
   );
 };
 
-Layout.propTypes = {
+Page_Layout.propTypes = {
   children: PropTypes.node,
 };
 
-export default Layout;
+export default Page_Layout;
