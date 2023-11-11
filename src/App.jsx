@@ -21,19 +21,18 @@ function App() {
   return (
     <>
       <GlobalStyle></GlobalStyle>
-      <Routes>
-        <Route element={<Page_Layout />}>
+        <Routes>
+          <Route element={<Page_Layout />}>
 
-          <Route path="/" element={<Landing />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/user-profile" element={<UserProfile />} />
+            <Route path="/" element={<Landing />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/user-profile" element={<UserProfile />} />
 
 
-          <Route path="/sign-in" element={<SignIn />} />
-          <Route path="/sign-up" element={<SignUp />} />
-        </Route>
-      </Routes>
-
+            <Route path="/sign-in" element={<SignIn />} />
+            <Route path="/sign-up" element={<SignUp />} />
+          </Route>
+        </Routes>
     </>
   );
 }
