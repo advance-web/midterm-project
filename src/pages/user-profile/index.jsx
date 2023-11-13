@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import { Card, Space } from 'antd';
-import { Button, Checkbox, Form, Input, Select } from 'antd';
+import { useState } from 'react';
+import { Card } from 'antd';
+import { Button, Form, Input, Select } from 'antd';
 
 const formItemLayout = {
   labelCol: {
@@ -34,17 +34,15 @@ const tailFormItemLayout = {
   },
 };
 
-
-
 const UserProfile = () => {
   const form = {
     username: 'Phùng Anh Khoa',
     email: 'khoa@gmail.com',
-    phone: "03215465",
+    phone: '03215465',
     residence: 'HCM City',
-    gender: 'male'
-  }
-  const [formData, setFormData] = useState(form)
+    gender: 'male',
+  };
+  const [formData, setFormData] = useState(form);
   console.log(formData);
   return (
     <>
@@ -53,15 +51,17 @@ const UserProfile = () => {
           width: '50%',
           margin: 'auto',
         }}
-        title="Thông tin cá nhân" size="small">
+        title="Thông tin cá nhân"
+        size="small"
+      >
         <Form
           {...formItemLayout}
           style={{
             width: '80%',
-            margin: 'auto'
-          }}>
+            margin: 'auto',
+          }}
+        >
           <Form.Item
-
             label="Họ tên"
             name="username"
             rules={[
@@ -128,7 +128,8 @@ const UserProfile = () => {
           >
             <Select
               defaultValue={formData.gender}
-              placeholder="select your gender">
+              placeholder="select your gender"
+            >
               <Option value="male">Male</Option>
               <Option value="female">Female</Option>
             </Select>

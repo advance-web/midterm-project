@@ -1,12 +1,14 @@
-import React from 'react';
+import { useContext } from 'react';
 
 import { BiPlanet } from 'react-icons/bi';
 import { Layout, Menu, Button } from 'antd';
 import { Link } from 'react-router-dom';
+import AuthContext from '../../../contexts/auth/auth-context';
 
 const { Header } = Layout;
 
 const App = () => {
+    const {user} = useContext(AuthContext) 
     return (
         <Layout
             style={{
@@ -68,7 +70,7 @@ const App = () => {
                         }}
                         onClick={(e) => e.preventDefault()}
                     >
-                        <span>Xin chào Anh Khoa</span>
+                        <span>Xin chào {user.name}</span>
                     </Menu.Item>
                     <Menu.Item key="4" onClick={(e) => e.preventDefault()} >
                         <Button
