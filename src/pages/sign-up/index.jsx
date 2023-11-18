@@ -1,5 +1,6 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 import { signUp } from "../../services/auth"
 
@@ -8,25 +9,40 @@ import React from 'react';
 import '../../css/signupStyle.css'
 
 export default function SignUp() {
+    const navigate = useNavigate();
 
     const onFinish = (values) => {
         console.log('Received values of form: ', values);
     };
 
-    const handleSignUp = () => {
-        const data = form.getFieldValue();
-        const dataCallAPI = {
-            "name": data.fullname,
-            "email": data.email,
-            "password": data.password,
-            "confirmPassword": data.confirmPassword,
-            "phone": data.telephone,
-            "address": data.address
+    const handleSignUp = async () => {
+        try {
+            const data = form.getFieldValue();
+            const dataCallAPI = {
+                "name": data.fullname,
+                "email": data.email,
+                "password": data.password,
+                "confirmPassword": data.confirmPassword,
+                "phone": data.telephone,
+                "address": data.address
+            }
+            console.log("AloAlo123: ", dataCallAPI);
+            const dataReturn = await signUp(dataCallAPI);
+            console.log("API Response: ", dataReturn);
+
+            const dataUser = dataReturn.data
+            const status = dataUser.status;
+
+            console.log("Status: ", status);
+
+            if (dataUser.status == "success") {
+                navigate("/sign-up");
+            }
+            form.submit();
+
+        } catch (error) {
+            console.log("Error: ", error);
         }
-        console.log("AloAlo123: ", dataCallAPI);
-        const dataReturn = signUp(dataCallAPI);
-        console.log("API Response: ", dataReturn);
-        form.submit();
     };
 
     const [form] = Form.useForm();
@@ -124,7 +140,7 @@ export default function SignUp() {
                     <Button type="primary" htmlType="submit" className="signup-form-button" onClick={handleSignUp}>
                         Sign up
                     </Button>
-                    Or <a href="# ">log in now!</a>
+                    Or <a href="/sign-in">log in now!</a>
                 </Form.Item>
             </Form>
         </div>

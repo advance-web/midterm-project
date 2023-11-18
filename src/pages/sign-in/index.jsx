@@ -1,29 +1,65 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input } from 'antd';
+import { useNavigate } from 'react-router-dom';
+
+import { useContext } from 'react'
+import AuthContext from '../../contexts/auth/auth-context'
+import { setJwt } from '../../libs/utils/localStorage'
 
 import { signIn } from "../../services/auth"
 
 import '../../css/signinStyle.css'
 
 export default function SignIn() {
+  const {user, setUser} = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const onFinish = (values) => {
     console.log('Received values of form: ', values);
   };
 
-  const handleSignIn = () => {
-    const data = form.getFieldValue();
-    const dataCallAPI = {
+  const handleSignIn = async () => {
+    try {
+      const data = form.getFieldValue();
+      const dataCallAPI = {
         "email": data.email,
         "password": data.password
-    }
-    console.log("AloAlo123: ", dataCallAPI);
-    const dataReturn = signIn(dataCallAPI);
-    console.log("API Response: ", dataReturn);
-    form.submit();
-};
+      }
+      console.log("AloAlo123: ", dataCallAPI);
+      const dataReturn = await signIn(dataCallAPI);
+      const dataUser = dataReturn.data
 
-const [form] = Form.useForm();
+      const status = dataUser.status;
+      const token = dataUser.token;
+      const userSignin = {
+        "id": dataUser.data.user.id,
+        "email": dataUser.data.user.email,
+        "name": dataUser.data.user.name,
+        "phone": dataUser.data.user.phone,
+        "address": dataUser.data.user.address 
+      }
+
+      console.log("API Response: ", dataUser);
+      console.log("Status: ", status);
+      console.log("Token: ", token);
+      console.log("Data user: ", userSignin);
+      
+      if (dataUser.status == "success")
+      {
+        setUser(userSignin);
+        setJwt(token);
+        navigate("/home");
+      }
+
+      form.submit();
+
+    } catch (error) {
+      console.log("Error: ", error)
+    }
+
+  };
+
+  const [form] = Form.useForm();
 
   return (
     <div className="signin">
@@ -75,7 +111,7 @@ const [form] = Form.useForm();
           <Button type="primary" htmlType="submit" className="signin-form-button" onClick={handleSignIn}>
             Log in
           </Button>
-          Or <a href="# ">register now!</a>
+          Or <a href="/sign-up">register now!</a>
         </Form.Item>
       </Form>
     </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Row, Col, Typography, Divider, Button, Space } from 'antd';
+import { Layout, Row, Col, Typography } from 'antd';
 import {
   FacebookOutlined,
   TwitterOutlined,
