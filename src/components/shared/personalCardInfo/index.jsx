@@ -20,19 +20,22 @@ export default function PersonalCardInfo(props) {
                     <img
                         className='personalImage'
                         alt="avatar"
-                        src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+                        src={data.srcImage}
                     />
                     <Flex className='content'
                         vertical
                         align="flex-start"
                     >
                         <Typography.Title>
-                            THÔNG TIN CÁ NHÂN
+                            {data.studentName} ({data.position})
                         </Typography.Title>
                         <Typography.Paragraph className='item-content'>Mã số sinh viên: {data.studentID} </Typography.Paragraph>
-                        <Typography.Paragraph className='item-content'>Họ và tên: {data.studentName} </Typography.Paragraph>
                         <Typography.Paragraph className='item-content'>Ngày tháng năm sinh: {data.dateOfBirth} </Typography.Paragraph>
                         <Typography.Paragraph className='item-content'>Chuyên ngành chính: {data.major} </Typography.Paragraph>
+                        <Typography.Paragraph className='item-content'>Sở thích: {data.hobbies} </Typography.Paragraph>
+                        <Typography.Paragraph className='item-content'>Môn thể thao yêu thích: {data.sports} </Typography.Paragraph>
+                        <Typography.Paragraph className='item-content'>Điểm mạnh: {data.strengths} </Typography.Paragraph>
+                        <Typography.Paragraph className='item-content'>Điểm yếu: {data.weaknesses} </Typography.Paragraph>
                     </Flex>
                 </Flex>
             </Card>
