@@ -80,6 +80,25 @@ const App = () => {
                             <a href="/">Đăng xuất</a>
                         </Button>
                     </Menu.Item>
+
+                    <Menu.Item key="5" onClick={(e) => e.preventDefault()} >
+                        <Button
+
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <a href="/sign-in">Đăng nhập</a>
+                        </Button>
+                    </Menu.Item>
+
+                    <Menu.Item key="6" onClick={(e) => e.preventDefault()} >
+                        <Button
+
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <a href="/sign-up">Đăng kí</a>
+                        </Button>
+                    </Menu.Item>
+
                 </Menu>
 
 

@@ -9,13 +9,15 @@ import { Outlet } from 'react-router-dom';
 const Page_Layout = (props) => {
   return (
     <div>
-      
-        <Header_login />
-        
-          <Outlet />
-       
-        
-      
+
+      <Header_login />
+
+
+      <Outlet />
+
+      <Footer />
+
+
     </div>
   );
 };
