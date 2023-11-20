@@ -7,6 +7,10 @@ const Home = () => {
         style={{
           margin: 'auto',
           width: '80%',
+          textAlign: "justify",
+          fontSize: "18px",
+          fontFamily: "Arial, Helvetica, sans-serif", 
+          lineHeight: "2",
         }}
       >
         <h1>Về Tôi</h1>

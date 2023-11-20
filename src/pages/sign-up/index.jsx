@@ -151,9 +151,9 @@ export default function SignUp() {
                 </Form.Item>}
                 <Form.Item wrapperCol={{ offset: 8, span: 16, }}>
                     <SubmitButton form={form} type="primary" loading={loading} htmlType="submit" className="signup-form-button" onClick={handleSignUp}>
-                        Sign up
+                        Đăng kí
                     </SubmitButton>
-                    Or <Link to="/sign-in">log in now!</Link>
+                    Or <Link to="/sign-in" style={{ fontSize: "16px" }}>log in now!</Link>
                 </Form.Item>
             </Form>
         </div>

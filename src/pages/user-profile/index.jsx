@@ -1,177 +1,121 @@
 import { useState, useContext, useEffect } from "react";
 import { Card, Typography } from "antd";
 import { Form, Input, Button } from "antd";
+import { UserOutlined } from '@ant-design/icons';
+
+import { Link, useNavigate } from 'react-router-dom';
 
 import AuthContext from "../../contexts/auth/auth-context";
 import { getMe, updateProfile } from "../../services/auth";
 
-const UserProfile = () => {
-  const { setUser } = useContext(AuthContext);
-  const [message, setMessage] = useState(null)
-  const [loading, setLoading] = useState(false)
+import "../../css/userProfileStyle.css"
 
-  const [formData, setFormData] = useState({
-    id: "",
-    name: "",
-    address: "",
-    phone: "",
-  });
+export default function UserProfile() {
+  //const navigate = useNavigate();
+  const [error, setError] = useState(null)
+  //const [loading, setLoading] = useState(false)
+  const { user, setUser } = useContext(AuthContext)
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await getMe();
-        const userData = response.data.data.data;
-        setFormData(userData);
-      } catch (error) {
-        console.error("Error fetching user data", error);
-      }
-    };
+  const onFinish = (values) => {
+    console.log('Received values of form: ', values);
+  };
 
-    fetchUserData();
-  }, []);
-
-  const handleUpdateProfile = async () => {
+  const handleUserProfile = async () => {
     try {
-      setMessage(null)
-      setLoading(true)
-      const response = await updateProfile(formData);
-      const userData = response.data.data.data;
-      setUser(userData)
-      setLoading(false)
-      setMessage('Cập nhật thông tin thành công')
-      } catch (error) {
-      setMessage('Cập nhật thông tin thất bại')
-      setLoading(false)
-      console.error("Error updating profile", error);
+      const data = form.getFieldValue();
+      const dataCallAPI = {
+        "name": data.fullname,
+        "phone": data.telephone,
+        "address": data.address
+      }
+      console.log("AloAlo123: ", dataCallAPI);
+      setError(null)
+      //setLoading(true)
+      const dataReturn = await updateProfile(dataCallAPI);
+      //setLoading(false)
+      console.log("API Response: ", dataReturn);
+
+      const dataUser = dataReturn.data.data.data
+      const status = dataReturn.data.status;
+
+      console.log("Status: ", status);
+      console.log("User information: ", dataUser);
+
+      if (status == "success") {
+        setUser(dataUser);
+      }
+      form.submit();
+
+    } catch (error) {
+      setError('Cập nhật không thành công')
+      //setLoading(false)
     }
   };
 
+  const [form] = Form.useForm();
+
   return (
-    <>
-      <Card
-        style={{
-          width: "50%",
-          margin: "auto",
-        }}
-        title="Thông tin cá nhân"
-        size="small"
+    <div className="user-profile">
+      <div className="title-user-profile">
+        Cập nhật thông tin cá nhân
+      </div>
+      <Form form={form} name="normal_user-profile" className="user-profile-form"
+        labelCol={{ span: 8, }}
+        wrapperCol={{ span: 16, }}
+        style={{ maxWidth: 600, }}
+        initialValues={{ email: user.email, fullname: user.name, telephone: user.phone, address: user.address  }}
+        onFinish={onFinish}
+
       >
-        <Form
-          {...formItemLayout}
-          style={{
-            width: "80%",
-            margin: "auto",
-          }}
-          onFinish={handleUpdateProfile}
+        <Form.Item label="Email" name="email">
+          <Input size="large" prefix={<UserOutlined className="site-form-item-icon" />}
+           readOnly value={user.email}/>
+        </Form.Item>
+
+        <Form.Item label="Fullname" name="fullname"
+          rules={[
+            {
+              required: true,
+              message: 'Please input your fullname!',
+            },
+          ]}
         >
-          <Form.Item
-            label="Họ tên"
-            name="username"
-            rules={[
-              {
-                required: true,
-                message: "Please input your username!",
-              },
-            ]}
-          >
-            <Input
-              onChange={(e) => {
-                setFormData({
-                  ...formData,
-                  name: e.target.value,
-                });
-              }}
-              placeholder={formData.name}
-            />
-          </Form.Item>
+          <Input size="large" placeholder="Enter fullname" />
+        </Form.Item>
 
-          <Form.Item
-            name="phone"
-            label="Số điện thoại"
-            rules={[
-              {
-                required: true,
-                message: "Please input your phone number!",
-              },
-            ]}
-          >
-            <Input
-              onChange={(e) => {
-                setFormData({
-                  ...formData,
-                  phone: e.target.value,
-                });
-              }}
-              placeholder={formData.phone}
-            />
-          </Form.Item>
+        <Form.Item label="Telephone" name="telephone"
+          rules={[
+            {
+              required: true,
+              message: 'Please input your telephone!',
+            },
+          ]}
+        >
+          <Input size="large" placeholder="Enter telephone" type="tel" />
+        </Form.Item>
 
-          <Form.Item
-            name="address"
-            label="Quê quán"
-            rules={[
-              {
-                required: true,
-                message: "Please input your address!",
-              },
-            ]}
-          >
-            <Input
-              onChange={(e) => {
-                setFormData({
-                  ...formData,
-                  address: e.target.value,
-                });
-              }}
-              placeholder={formData.address}
-            />
-          </Form.Item>
+        <Form.Item label="Address" name="address"
+          rules={[
+            {
+              required: true,
+              message: 'Please input your address!',
+            },
+          ]}
+        >
+          <Input size="large" placeholder="Enter address" />
+        </Form.Item>
 
-          {message && <Form.Item {...tailFormItemLayout}>
-            <Typography.Text>{message}</Typography.Text>
-          </Form.Item>}
-          <Form.Item {...tailFormItemLayout}>
-            <Button type="primary" htmlType="submit" loading={loading}>
-              Xác nhận chỉnh sửa
-            </Button>
-          </Form.Item>
-        </Form>
-      </Card>
-    </>
+        {error && <Form.Item wrapperCol={{ offset: 8, span: 16, }}>
+          <Typography.Text type='danger'>{error}</Typography.Text>
+        </Form.Item>}
+
+        <Form.Item wrapperCol={{ offset: 8, span: 16, }}>
+          <Button type="primary" htmlType="submit" className="user-profile-form-button" onClick={handleUserProfile}>
+            Cập nhật thông tin
+          </Button>
+        </Form.Item>
+      </Form>
+    </div>
   );
-};
 
-export default UserProfile;
-
-const formItemLayout = {
-  labelCol: {
-    xs: {
-      span: 24,
-    },
-    sm: {
-      span: 8,
-    },
-  },
-  wrapperCol: {
-    xs: {
-      span: 24,
-    },
-    sm: {
-      span: 16,
-    },
-  },
-};
-
-const tailFormItemLayout = {
-  wrapperCol: {
-    xs: {
-      span: 24,
-      offset: 0,
-    },
-    sm: {
-      span: 16,
-      offset: 8,
-    },
-  },
-};
+}

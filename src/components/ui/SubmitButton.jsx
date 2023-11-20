@@ -21,7 +21,6 @@ const SubmitButton = ({ form, ...other }) => {
   
     return (
       <Button {...other} disabled={!submittable}>
-        Submit
       </Button>
     );
   };

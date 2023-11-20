@@ -105,14 +105,15 @@ export default function SignIn() {
         </Form.Item>
 
         {error && <Form.Item wrapperCol={{ offset: 8, span: 16, }}>
-          <Typography.Text type="danger">{error}</Typography.Text>
+          <Typography.Text type="danger" style={{ fontSize: "20px", fontFamily: "Arial, Helvetica, sans-serif" }}>
+            {error}</Typography.Text>
         </Form.Item>}
 
         <Form.Item wrapperCol={{ offset: 8, span: 16, }}>
           <SubmitButton form={form} type="primary" htmlType="submit" className="signin-form-button" onClick={handleSignIn} loading={loading}>
-            Log in
+            Đăng nhập
           </SubmitButton>
-          Or <Link to="/sign-up">register now!</Link>
+          Or <Link to="/sign-up" style={{ fontSize: "16px" }}>register now!</Link>
         </Form.Item>
       </Form>
     </div>
