@@ -61,32 +61,17 @@ const HeaderNotLogin = () => {
             justifyContent: "flex-end",
           }}
         >
-          <Menu.Item key="3" onClick={(e) => e.preventDefault()}>
-            <Button >
+          <Menu.Item key="3">
+            <Button>
               <Link to="/sign-in">Đăng nhập</Link>
             </Button>
           </Menu.Item>
-          <Menu.Item key="4" onClick={(e) => e.preventDefault()}>
-            <Button >
+          <Menu.Item key="4">
+            <Button>
               <Link to="/sign-up">Đăng kí</Link>
             </Button>
           </Menu.Item>
         </Menu>
-
-        {/* Right-aligned menu item */}
-        {/* <Menu theme="light" mode="horizontal" style={{ justifyContent: 'flex-end' }}>
-                    <Menu.Item key="4" onClick={(e) => e.preventDefault()} style={{ whiteSpace: 'nowrap' }}>
-                        <Button
-                            style={{ whiteSpace: 'nowrap' }}
-                            onClick={(e) => e.stopPropagation()}
-                        >
-                            <Link to="/">Đăng xuất</Link>
-                        </Button>
-                    </Menu.Item>
-                    <Menu.Item key='3'>
-                        <p>Xin chào Anh Khoa</p>
-                    </Menu.Item>
-                </Menu> */}
       </Header>
     </Layout>
   );

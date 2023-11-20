@@ -9,7 +9,7 @@ import { logOut } from "../../../services/auth";
 const { Header } = Layout;
 
 const HeaderLogin = () => {
-  const { user } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
   return (
     <Layout
       style={{
@@ -74,28 +74,15 @@ const HeaderLogin = () => {
           <Menu.Item key="4" onClick={(e) => e.preventDefault()}>
             <Button
               onClick={() => {
-                logOut;
+                logOut();
+                localStorage.removeItem("jwt")
+                setUser(null);
               }}
             >
               <a href="/">Đăng xuất</a>
             </Button>
           </Menu.Item>
         </Menu>
-
-        {/* Right-aligned menu item */}
-        {/* <Menu theme="light" mode="horizontal" style={{ justifyContent: 'flex-end' }}>
-                    <Menu.Item key="4" onClick={(e) => e.preventDefault()} style={{ whiteSpace: 'nowrap' }}>
-                        <Button
-                            style={{ whiteSpace: 'nowrap' }}
-                            onClick={(e) => e.stopPropagation()}
-                        >
-                            <Link to="/">Đăng xuất</Link>
-                        </Button>
-                    </Menu.Item>
-                    <Menu.Item key='3'>
-                        <p>Xin chào Anh Khoa</p>
-                    </Menu.Item>
-                </Menu> */}
       </Header>
     </Layout>
   );
