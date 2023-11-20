@@ -1,17 +1,21 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { Form, Input, Typography } from 'antd';
+import { Link, useNavigate } from 'react-router-dom';
 
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import AuthContext from '../../contexts/auth/auth-context'
 import { setJwt } from '../../libs/utils/localStorage'
 
 import { signIn } from "../../services/auth"
 
 import '../../css/signinStyle.css'
+import SubmitButton from '../../components/ui/SubmitButton';
 
 export default function SignIn() {
-  const {user, setUser} = useContext(AuthContext);
+  const {setUser} = useContext(AuthContext);
+  const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(false)
+
   const navigate = useNavigate();
 
   const onFinish = (values) => {
@@ -26,7 +30,9 @@ export default function SignIn() {
         "password": data.password
       }
       console.log("AloAlo123: ", dataCallAPI);
+      setLoading(true)
       const dataReturn = await signIn(dataCallAPI);
+      setLoading(false)
       const dataUser = dataReturn.data
 
       const status = dataUser.status;
@@ -54,7 +60,8 @@ export default function SignIn() {
       form.submit();
 
     } catch (error) {
-      console.log("Error: ", error)
+      setError('Sai tài khoản hoặc mật khẩu')
+      setLoading(false)
     }
 
   };
@@ -97,21 +104,15 @@ export default function SignIn() {
             type="password" placeholder="Password" />
         </Form.Item>
 
-        <Form.Item wrapperCol={{ offset: 8, span: 16, }}>
-          <Form.Item name="remember" valuePropName="checked" noStyle>
-            <Checkbox>Remember me</Checkbox>
-          </Form.Item>
-
-          <a className="signin-form-forgot" href="# ">
-            Forgot password
-          </a>
-        </Form.Item>
+        {error && <Form.Item wrapperCol={{ offset: 8, span: 16, }}>
+          <Typography.Text type="danger">{error}</Typography.Text>
+        </Form.Item>}
 
         <Form.Item wrapperCol={{ offset: 8, span: 16, }}>
-          <Button type="primary" htmlType="submit" className="signin-form-button" onClick={handleSignIn}>
+          <SubmitButton form={form} type="primary" htmlType="submit" className="signin-form-button" onClick={handleSignIn} loading={loading}>
             Log in
-          </Button>
-          Or <a href="/sign-up">register now!</a>
+          </SubmitButton>
+          Or <Link to="/sign-up">register now!</Link>
         </Form.Item>
       </Form>
     </div>

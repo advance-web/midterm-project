@@ -10,6 +10,7 @@ const { Header } = Layout;
 
 const HeaderLogin = () => {
   const { user, setUser } = useContext(AuthContext);
+
   return (
     <Layout
       style={{
@@ -48,7 +49,7 @@ const HeaderLogin = () => {
             </Link>
           </Menu.Item>
           <Menu.Item key="2">
-            <Link to="/user-profile">User</Link>
+            <Link to="/user-profile">Thông tin cá nhân</Link>
           </Menu.Item>
         </Menu>
 

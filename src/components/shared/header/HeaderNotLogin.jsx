@@ -1,14 +1,10 @@
-import { useContext } from "react";
-
 import { BiPlanet } from "react-icons/bi";
 import { Layout, Menu, Button } from "antd";
 import { Link } from "react-router-dom";
-import AuthContext from "../../../contexts/auth/auth-context";
 
 const { Header } = Layout;
 
 const HeaderNotLogin = () => {
-  const { user } = useContext(AuthContext);
   return (
     <Layout
       style={{
@@ -26,12 +22,10 @@ const HeaderNotLogin = () => {
       >
         <div className="demo-logo" />
 
-        {/* Left-aligned menu items */}
         <Menu
           className="menu"
           theme="light"
           mode="horizontal"
-          // defaultSelectedKeys={['1']}
           style={{
             flex: "auto",
             minWidth: 0,
@@ -40,8 +34,6 @@ const HeaderNotLogin = () => {
           <Menu.Item key="1">
             <Link to="/home">
               <p style={{ marginRight: "8px", lineHeight: "0px" }}>
-                {" "}
-                {/* Adjust margin as needed */}
                 <BiPlanet size={35} />
               </p>
             </Link>

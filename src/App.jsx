@@ -1,14 +1,15 @@
-import React from "react";
+import React, {useEffect} from "react";
+import PropTypes from "prop-types";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import AuthContext from "./contexts/auth/auth-context";
-
 import Landing from "./pages/landing";
 import SignIn from "./pages/sign-in";
 import SignUp from "./pages/sign-up";
 import Home from "./pages/home";
 import UserProfile from "./pages/user-profile";
 import Page_Layout from "./components/shared/layout";
+import { getMe } from "./services/auth";
 
 const ProtectedRoute = ({ user, children }) => {
   if (!user) {
@@ -17,8 +18,38 @@ const ProtectedRoute = ({ user, children }) => {
   return children;
 };
 
+ProtectedRoute.propTypes = {
+  user: PropTypes.object,
+  children: PropTypes.node
+}
+
+const AuthRoute = ({ user, children }) => {
+  if (user) {
+    return <Navigate to="/" replace />;
+  }
+  return children;
+};
+
+AuthRoute.propTypes = {
+  user: PropTypes.object,
+  children: PropTypes.node
+}
+
 function App() {
-  const { user } = React.useContext(AuthContext);
+  const { user, setUser } = React.useContext(AuthContext);
+  useEffect(() => {
+    const initUserData = async () => {
+        try {
+            console.log('getme')
+            const response = await getMe();
+            const userData = response.data.data.data;
+            setUser(userData);
+        } catch(err) {
+            console.log("Not logged in")
+        }
+    }
+    initUserData()
+  }, [setUser])
   return (
     <>
       <GlobalStyle />
@@ -42,9 +73,17 @@ function App() {
               </ProtectedRoute>
             }
           />
+        <Route path="/sign-in" element={
+          <AuthRoute user={user}>
+            <SignIn />
+          </AuthRoute>
+        } />
+        <Route path="/sign-up" element={
+          <AuthRoute user={user} >
+            <SignUp />
+          </AuthRoute>
+        } />
         </Route>
-        <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/sign-up" element={<SignUp />} />
       </Routes>
     </>
   );

@@ -1,15 +1,19 @@
+import { useContext, useState } from 'react';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Form, Input } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { Form, Input, Typography } from 'antd';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { signUp } from "../../services/auth"
 
-import React from 'react';
-
 import '../../css/signupStyle.css'
+import SubmitButton from '../../components/ui/SubmitButton';
+import AuthContext from '../../contexts/auth/auth-context';
 
 export default function SignUp() {
     const navigate = useNavigate();
+    const [error, setError] = useState(null)
+    const [loading, setLoading] = useState(false)
+    const {setUser} = useContext(AuthContext)
 
     const onFinish = (values) => {
         console.log('Received values of form: ', values);
@@ -27,7 +31,10 @@ export default function SignUp() {
                 "address": data.address
             }
             console.log("AloAlo123: ", dataCallAPI);
+            setError(null)
+            setLoading(true)
             const dataReturn = await signUp(dataCallAPI);
+            setLoading(false)
             console.log("API Response: ", dataReturn);
 
             const dataUser = dataReturn.data
@@ -39,9 +46,11 @@ export default function SignUp() {
                 navigate("/sign-up");
             }
             form.submit();
+            setUser(dataUser.data.user)
 
         } catch (error) {
-            console.log("Error: ", error);
+            setError('Email đã tồn tại')
+            setLoading(false)
         }
     };
 
@@ -58,6 +67,7 @@ export default function SignUp() {
                 style={{ maxWidth: 600, }}
                 initialValues={{ remember: true, }}
                 onFinish={onFinish}
+                
             >
                 <Form.Item label="Fullname" name="fullname"
                     rules={[
@@ -136,11 +146,14 @@ export default function SignUp() {
                         type="password" placeholder="Confirm Password" />
                 </Form.Item>
 
+                {error && <Form.Item wrapperCol={{ offset: 8, span: 16, }}>
+                    <Typography.Text type='danger'>{error}</Typography.Text>
+                </Form.Item>}
                 <Form.Item wrapperCol={{ offset: 8, span: 16, }}>
-                    <Button type="primary" htmlType="submit" className="signup-form-button" onClick={handleSignUp}>
+                    <SubmitButton form={form} type="primary" loading={loading} htmlType="submit" className="signup-form-button" onClick={handleSignUp}>
                         Sign up
-                    </Button>
-                    Or <a href="/sign-in">log in now!</a>
+                    </SubmitButton>
+                    Or <Link to="/sign-in">log in now!</Link>
                 </Form.Item>
             </Form>
         </div>

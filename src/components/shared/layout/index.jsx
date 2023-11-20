@@ -3,19 +3,17 @@ import { useContext } from "react";
 
 import HeaderNotLogin from "../header/HeaderNotLogin";
 import HeaderLogin from "../header/HeaderLogin";
-import { Layout } from "antd";
 import { Outlet } from "react-router-dom";
 import AuthContext from "../../../contexts/auth/auth-context";
 
 
 
-const Page_Layout = (props) => {
+const Page_Layout = () => {
   const { user } = useContext(AuthContext);
-
+  console.log("user:", user)
   return (
     <div>
-    
-      {false ? <HeaderNotLogin /> : <HeaderLogin/>}
+      {user ? <HeaderLogin/>: <HeaderNotLogin /> }
       
       <Outlet />
     </div>

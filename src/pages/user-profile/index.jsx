@@ -1,26 +1,21 @@
 import { useState, useContext, useEffect } from "react";
-import { Card } from "antd";
-import { Button, Form, Input, Select } from "antd";
+import { Card, Typography } from "antd";
+import { Form, Input, Button } from "antd";
 
 import AuthContext from "../../contexts/auth/auth-context";
 import { getMe, updateProfile } from "../../services/auth";
 
 const UserProfile = () => {
-  const { user } = useContext(AuthContext);
-  // const form = {
-  //   username: "Phùng Anh Khoa",
-  //   email: "khoa@gmail.com",
-  //   phone: "03215465",
-  //   residence: "HCM City",
-  //   gender: "male",
-  // };
+  const { setUser } = useContext(AuthContext);
+  const [message, setMessage] = useState(null)
+  const [loading, setLoading] = useState(false)
+
   const [formData, setFormData] = useState({
     id: "",
     name: "",
     address: "",
     phone: "",
   });
-  console.log(formData);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -38,9 +33,16 @@ const UserProfile = () => {
 
   const handleUpdateProfile = async () => {
     try {
-      await updateProfile(formData);
-      console.log("Profile updated successfully");
-    } catch (error) {
+      setMessage(null)
+      setLoading(true)
+      const response = await updateProfile(formData);
+      const userData = response.data.data.data;
+      setUser(userData)
+      setLoading(false)
+      setMessage('Cập nhật thông tin thành công')
+      } catch (error) {
+      setMessage('Cập nhật thông tin thất bại')
+      setLoading(false)
       console.error("Error updating profile", error);
     }
   };
@@ -126,8 +128,11 @@ const UserProfile = () => {
             />
           </Form.Item>
 
+          {message && <Form.Item {...tailFormItemLayout}>
+            <Typography.Text>{message}</Typography.Text>
+          </Form.Item>}
           <Form.Item {...tailFormItemLayout}>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" loading={loading}>
               Xác nhận chỉnh sửa
             </Button>
           </Form.Item>
