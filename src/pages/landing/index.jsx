@@ -42,12 +42,13 @@ const listPersonalInfo = [{
 export default function Landing() {
   return (
     <div>
-      <div>
+      <div style={{ paddingLeft: "50px", paddingRight: "50px", textAlign: "justify", fontSize: "20px", 
+            fontFamily: "Arial, Helvetica, sans-serif", lineHeight: "2" }}>
         Nhóm chúng tôi là một đội ngũ đầy năng động và đa tài, gồm ba thành viên tận tâm đang học tập trong chuyên ngành
         Kỹ thuật Phần mềm. Mỗi thành viên của chúng tôi đều mang theo những đặc điểm riêng biệt, tạo nên một hỗn hợp
         đa dạng của sở thích, kỹ năng, và tính cách. Chúng tôi là một nhóm đồng đội, sẵn sàng kết hợp sức mạnh cá nhân
         để đối mặt với mọi thách thức và đạt được những thành công lớn trong lĩnh vực chúng tôi đang theo đuổi.
-        Cùng nhau, chúng tôi hướng đến mục tiêu chung của việc xây dựng và phát triển các sản phẩm kỹ thuật phần mềm xuất sắc.
+        Cùng nhau, chúng tôi hướng đến mục tiêu chung của việc xây dựng và phát triển các sản phẩm phần mềm tốt.
       </div>
       <div className="listCardInfo">
         {listPersonalInfo.map((personalInfo) =>
