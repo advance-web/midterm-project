@@ -10,13 +10,12 @@ import Home from "./pages/home";
 import UserProfile from "./pages/user-profile";
 import Page_Layout from "./components/shared/layout";
 
-const GlobalStyle = createGlobalStyle`
-  body {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+const ProtectedRoute = ({ user, children }) => {
+  if (!user) {
+    return <Navigate to="/" replace />;
   }
-`;
+  return children;
+};
 
 function App() {
   const { user } = React.useContext(AuthContext);
@@ -24,17 +23,25 @@ function App() {
     <>
       <GlobalStyle />
       <Routes>
-       
         <Route element={<Page_Layout />}>
-          <Route path='/' element={<Landing />} />
-          {user ? (
-            <>
-             <Route path="/home" element={<Home/>} /> 
-             <Route path="/user-profile" element={<UserProfile />}/>
-            </>
-          ) : (
-            <Navigate to="/sign-in" />
-          )}
+          <Route path="/" element={<Landing />} />
+
+          <Route
+            path="/home"
+            element={
+              <ProtectedRoute user={user}>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/user-profile"
+            element={
+              <ProtectedRoute user={user}>
+                <UserProfile />
+              </ProtectedRoute>
+            }
+          />
         </Route>
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
@@ -44,3 +51,11 @@ function App() {
 }
 
 export default App;
+
+const GlobalStyle = createGlobalStyle`
+    body {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+  `;

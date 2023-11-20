@@ -16,7 +16,6 @@ const UserProfile = () => {
   // };
   const [formData, setFormData] = useState({
     id: "",
-    email: "",
     name: "",
     address: "",
     phone: "",
@@ -27,7 +26,7 @@ const UserProfile = () => {
     const fetchUserData = async () => {
       try {
         const response = await getMe();
-        const userData = response.data;
+        const userData = response.data.data.data;
         setFormData(userData);
       } catch (error) {
         console.error("Error fetching user data", error);
@@ -74,23 +73,15 @@ const UserProfile = () => {
               },
             ]}
           >
-            <Input placeholder={formData.name} />
-          </Form.Item>
-          <Form.Item
-            name="email"
-            label="E-mail"
-            rules={[
-              {
-                type: "email",
-                message: "The input is not valid E-mail!",
-              },
-              {
-                required: true,
-                message: "Please input your E-mail!",
-              },
-            ]}
-          >
-            <Input placeholder={formData.email} />
+            <Input
+              onChange={(e) => {
+                setFormData({
+                  ...formData,
+                  name: e.target.value,
+                });
+              }}
+              placeholder={formData.name}
+            />
           </Form.Item>
 
           <Form.Item
@@ -103,7 +94,15 @@ const UserProfile = () => {
               },
             ]}
           >
-            <Input placeholder={formData.phone} />
+            <Input
+              onChange={(e) => {
+                setFormData({
+                  ...formData,
+                  phone: e.target.value,
+                });
+              }}
+              placeholder={formData.phone}
+            />
           </Form.Item>
 
           <Form.Item
@@ -112,34 +111,23 @@ const UserProfile = () => {
             rules={[
               {
                 required: true,
-                message: "Please input your phone number!",
+                message: "Please input your address!",
               },
             ]}
           >
-            <Input placeholder={formData.address} />
-          </Form.Item>
-
-          <Form.Item
-            name="gender"
-            label="Giới tính"
-            rules={[
-              {
-                required: true,
-                message: "Please select gender!",
-              },
-            ]}
-          >
-            <Select placeholder={formData.gender}>
-              <Option value="male">Male</Option>
-              <Option value="female">Female</Option>
-            </Select>
+            <Input
+              onChange={(e) => {
+                setFormData({
+                  ...formData,
+                  address: e.target.value,
+                });
+              }}
+              placeholder={formData.address}
+            />
           </Form.Item>
 
           <Form.Item {...tailFormItemLayout}>
-            <Button
-              type="primary"
-              htmlType="submit"
-            >
+            <Button type="primary" htmlType="submit">
               Xác nhận chỉnh sửa
             </Button>
           </Form.Item>
